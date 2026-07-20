@@ -1,0 +1,6 @@
+{
+  "name": "BWP Software",
+  "description": "Desarrollo de software empresarial a la medida, plataformas web, aplicaciones de escritorio y móviles, e integraciones con SAP Business One.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,38 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { ArrowRight, CheckCircle2, FileCheck2, GitBranch, Layers3, ShieldCheck, Workflow } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
+import { getLucideIcon, getStoredDataAsync, INITIAL_SERVICES } from "@/lib/data";
+
+const operatingPrinciples=[
+  {icon:Workflow,title:"Proceso antes que tecnología",text:"Levantamos flujos, responsables, excepciones y controles antes de definir pantallas o componentes."},
+  {icon:Layers3,title:"Arquitectura preparada para crecer",text:"Diseñamos módulos, datos e integraciones considerando nuevos usuarios, sucursales y capacidades."},
+  {icon:ShieldCheck,title:"Seguridad incorporada",text:"Roles, trazabilidad, protección de información y gestión de vulnerabilidades se consideran desde el diseño."},
+  {icon:GitBranch,title:"Integración como parte del sistema",text:"La solución puede conectarse con ERP, bancos, pagos, hardware, plataformas externas y servicios empresariales."}
+];
+
+const engagement=[
+  ["01","Diagnóstico técnico","Entendemos la operación, problemas, sistemas actuales, usuarios, información e integraciones."],
+  ["02","Definición de alcance","Convertimos necesidades en módulos, entregables, prioridades y criterios de aceptación."],
+  ["03","Construcción y validación","Entregamos avances verificables, probamos flujos y mantenemos visibilidad sobre decisiones."],
+  ["04","Implementación y evolución","Migramos, capacitamos, estabilizamos y definimos una hoja de ruta posterior a producción."]
+];
+
+export default function ServiciosPage(){
+  const [services,setServices]=useState(INITIAL_SERVICES);
+  const reduced=useReducedMotion();
+  useEffect(()=>{let active=true;void getStoredDataAsync("services",INITIAL_SERVICES).then(items=>{if(active)setServices(items.filter(item=>item.active))});return()=>{active=false}},[]);
+  return <div className="bg-white min-h-screen" id="servicios-page-container">
+    <section className="relative bg-slate-950 text-white pt-28 pb-24 overflow-hidden"><div className="absolute right-[-12rem] top-[-14rem] w-[42rem] h-[42rem] rounded-full border border-red-800/20"/><svg className="absolute bottom-0 w-full h-52 opacity-40" viewBox="0 0 1440 200" preserveAspectRatio="none"><motion.path d="M0 150 C260 25 430 220 720 100 S1160 20 1440 140" fill="none" stroke="#991b1b" strokeWidth="2" initial={reduced?false:{pathLength:0}} animate={reduced?undefined:{pathLength:1}} transition={{duration:2}}/></svg><div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative"><span className="text-xs font-mono text-red-400 uppercase tracking-[.28em]">Servicios de ingeniería empresarial</span><h1 className="text-5xl lg:text-7xl font-bold tracking-[-.055em] leading-[1] max-w-5xl mt-6">De una necesidad operativa a una plataforma completa</h1><p className="text-lg text-slate-300 leading-relaxed max-w-3xl mt-7">BWP Software analiza, diseña, desarrolla, integra e implementa sistemas empresariales para web, escritorio, movilidad, datos y nube.</p><div className="flex flex-wrap gap-4 mt-9"><Link href="/contacto?type=meeting" className="inline-flex items-center gap-2 bg-red-800 px-6 py-3.5 rounded-lg font-bold">Solicitar diagnóstico <ArrowRight className="w-4 h-4"/></Link><Link href="/metodologia" className="inline-flex items-center gap-2 border border-slate-700 px-6 py-3.5 rounded-lg font-bold">Ver metodología</Link></div></div></section>
+
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24"><div className="max-w-3xl"><span className="text-xs font-bold text-red-800 uppercase tracking-[.2em]">Capacidad integral</span><h2 className="text-4xl lg:text-5xl font-bold mt-4">Servicios que pueden operar solos o como un ecosistema</h2><p className="text-slate-600 mt-5 text-lg">Cada servicio se adapta al contexto técnico del cliente y puede integrarse con los demás para construir una solución unificada.</p></div><div className="mt-16 border-t border-slate-300">{services.map((service,index)=>{const Icon=getLucideIcon(service.iconName);return <motion.article key={service.id} initial={reduced?false:{opacity:0,y:30}} whileInView={reduced?undefined:{opacity:1,y:0}} viewport={{once:true,amount:.2}} className="grid lg:grid-cols-12 gap-8 py-12 border-b border-slate-200"><div className="lg:col-span-1"><span className="text-3xl font-black text-slate-200">0{index+1}</span></div><div className="lg:col-span-4"><Icon className="w-8 h-8 text-red-800"/><h2 className="text-3xl font-bold mt-5">{service.title}</h2><p className="text-slate-600 leading-relaxed mt-4">{service.description}</p><Link href={`/contacto?service=${encodeURIComponent(service.title)}`} className="inline-flex items-center gap-2 text-red-800 font-bold text-sm mt-6">Evaluar este servicio <ArrowRight className="w-4 h-4"/></Link></div><div className="lg:col-span-7 lg:pl-8 lg:border-l border-slate-200"><p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Alcance configurable</p><div className="grid sm:grid-cols-2 gap-x-7 gap-y-4 mt-6">{service.includes.map(item=><div key={item} className="flex gap-3 text-sm text-slate-700"><CheckCircle2 className="w-4 h-4 text-red-700 shrink-0 mt-1"/>{item}</div>)}</div></div></motion.article>})}</div></section>
+
+    <section className="bg-slate-50 border-y border-slate-200 py-24"><div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-12"><div className="lg:col-span-4"><span className="text-xs font-bold text-blue-900 uppercase tracking-[.2em]">Cómo diseñamos</span><h2 className="text-4xl font-bold mt-4">Principios que atraviesan todos los servicios</h2></div><div className="lg:col-span-8 divide-y divide-slate-200">{operatingPrinciples.map((item,index)=>{const Icon=item.icon;return <div key={item.title} className="grid sm:grid-cols-[50px_60px_1fr] gap-5 py-6"><span className="font-mono text-slate-400">0{index+1}</span><Icon className="w-6 h-6 text-red-800"/><div><h3 className="font-bold text-xl">{item.title}</h3><p className="text-sm text-slate-600 mt-2">{item.text}</p></div></div>})}</div></div></section>
+
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24"><div className="flex items-end justify-between gap-8"><div className="max-w-3xl"><span className="text-xs font-bold text-red-800 uppercase tracking-[.2em]">Modelo de contratación</span><h2 className="text-4xl font-bold mt-4">Qué puede esperar durante el servicio</h2></div><FileCheck2 className="hidden md:block w-14 h-14 text-slate-200"/></div><div className="mt-12 grid md:grid-cols-4 border-y border-slate-300">{engagement.map(([number,title,text])=><div key={number} className="py-8 md:px-6 first:pl-0 border-b md:border-b-0 md:border-r border-slate-200 last:border-0"><span className="font-mono text-red-700">{number}</span><h3 className="font-bold mt-5">{title}</h3><p className="text-xs text-slate-600 mt-3 leading-relaxed">{text}</p></div>)}</div></section>
+
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24"><div className="bg-gradient-to-br from-blue-950 to-slate-950 text-white rounded-[2.5rem_0_2.5rem_0] p-10 lg:p-14"><h2 className="text-4xl font-bold max-w-3xl">Web, escritorio, móvil y nube pueden formar una sola operación</h2><p className="text-slate-300 max-w-3xl mt-5">Diseñamos arquitecturas híbridas donde cada canal cumple una función específica y toda la información se mantiene conectada, gobernada y disponible para los responsables correctos.</p><Link href="/contacto" className="inline-flex items-center gap-2 bg-white text-slate-950 px-6 py-3.5 rounded-lg font-bold mt-8">Agendar reunión técnica <ArrowRight className="w-4 h-4"/></Link></div></section>
+  </div>;
+}

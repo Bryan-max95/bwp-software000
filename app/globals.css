@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display), sans-serif;
+  
+  /* Brand colors */
+  --color-brand-blue-dark: #0f172a; /* Slate 900 */
+  --color-brand-blue-navy: #1e3a8a; /* Blue 900 */
+  --color-brand-red-wine: #991b1b;  /* Red 800 */
+  --color-brand-red-accent: #b91c1c; /* Red 700 */
+}
+
+/* Keep all dynamically composed modules inside the BWP corporate palette. */
+.bwp-corporate-palette [class*="text-emerald"],
+.bwp-corporate-palette [class*="text-cyan"],
+.bwp-corporate-palette [class*="text-lime"],
+.bwp-corporate-palette [class*="text-violet"],
+.bwp-corporate-palette [class*="text-fuchsia"],
+.bwp-corporate-palette [class*="text-amber"] { color: #dc2626 !important; }
+
+.bwp-corporate-palette [class*="bg-emerald"],
+.bwp-corporate-palette [class*="bg-cyan"],
+.bwp-corporate-palette [class*="bg-lime"],
+.bwp-corporate-palette [class*="bg-violet"],
+.bwp-corporate-palette [class*="bg-fuchsia"],
+.bwp-corporate-palette [class*="bg-amber"] { background-color: rgb(30 58 138 / 0.22) !important; }
+
+.bwp-corporate-palette [class*="border-emerald"],
+.bwp-corporate-palette [class*="border-cyan"],
+.bwp-corporate-palette [class*="border-lime"],
+.bwp-corporate-palette [class*="border-violet"],
+.bwp-corporate-palette [class*="border-fuchsia"],
+.bwp-corporate-palette [class*="border-amber"] { border-color: rgb(185 28 28 / 0.55) !important; }
+
+.bwp-corporate-palette path[stroke="#a3e635"] { stroke: #ef4444; }
+
+/* The hidden management portal uses a standalone application shell. */
+body:has(#admin-login-screen) #bwp-header,
+body:has(#admin-dashboard-container) #bwp-header,
+body:has(#admin-login-screen) #bwp-footer,
+body:has(#admin-dashboard-container) #bwp-footer,
+body:has(#admin-login-screen) a[title="Contactar por WhatsApp"],
+body:has(#admin-dashboard-container) a[title="Contactar por WhatsApp"] { display: none; }
+body:has(#admin-login-screen) #global-flow-field,
+body:has(#admin-dashboard-container) #global-flow-field { display: none; }
+
+body:has(#admin-login-screen) > main,
+body:has(#admin-dashboard-container) > main { padding-top: 0; }
+
+.bwp-motion-section {
+  position: relative;
+}
+
+.bwp-motion-section::after {
+  content: "";
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  bottom: 0;
+  height: 1px;
+  pointer-events: none;
+  transform: scaleX(0);
+  transform-origin: left;
+  background: linear-gradient(90deg, transparent, rgb(153 27 27 / .32), rgb(30 58 138 / .28), transparent);
+  transition: transform 1.4s cubic-bezier(.22,1,.36,1);
+}
+
+.bwp-motion-section.bwp-section-active::after {
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bwp-motion-section::after { transition: none; }
+}
+
+@layer base {
+  body {
+    line-height: 1.65;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    color: white;
+    background: #991b1b;
+  }
+}
